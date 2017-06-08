@@ -105,30 +105,31 @@ public class RequestController {
         if (cords[0] == x + 1 && cords[1] == y) {
           if (i == 0 && snake != mySnake && getSnakeLen(snake) < mySnakeLen) {
             moves.winning.add(Move.RIGHT);
-          } else {
-            moves.available.remove(Move.RIGHT);
           }
+
+          moves.available.remove(Move.RIGHT);
+
         }
         if (cords[0] == x - 1 && cords[1] == y) {
           if (i == 0 && snake != mySnake && getSnakeLen(snake) < mySnakeLen) {
             moves.winning.add(Move.LEFT);
-          } else {
-            moves.available.remove(Move.LEFT);
           }
+            moves.available.remove(Move.LEFT);
+
         }
         if (cords[0] == x && cords[1] == y + 1) {
           if (i == 0 && snake != mySnake && getSnakeLen(snake) < mySnakeLen) {
             moves.winning.add(Move.DOWN);
-          } else {
-            moves.available.remove(Move.DOWN);
           }
+            moves.available.remove(Move.DOWN);
+
         }
         if (cords[0] == x && cords[1] == y - 1) {
           if (i == 0 && snake != mySnake && getSnakeLen(snake) < mySnakeLen) {
             moves.winning.add(Move.UP);
-          } else {
-            moves.available.remove(Move.UP);
           }
+            moves.available.remove(Move.UP);
+
         }
       }
     }
