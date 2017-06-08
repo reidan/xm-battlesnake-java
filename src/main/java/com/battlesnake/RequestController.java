@@ -53,13 +53,9 @@ public class RequestController {
               .setTaunt("DIE !!!");
     }
 
-    if (request.getFood().length > 0) {
-      int foodX = request.getFood()[0][0];
-      int foodY = request.getFood()[0][1];
 
-    } else {
       finalMove = movesArr[new Random().nextInt(movesArr.length)];
-    }
+
     return new MoveResponse()
       .setMove(finalMove)
       .setTaunt("Move");
