@@ -36,7 +36,7 @@ public class RequestController {
       .setName("The Snake formerly known as the Mongoose")
       .setColor("#4A412A")
       .setHeadUrl("https://s3-us-west-2.amazonaws.com/s3-xmatters-static/snek/mongoose1.png")
-      .setHeadType(HeadType.SANDWORM)
+      .setHeadType(HeadType.TONGUE)
       .setTailType(TailType.FATRATTLE)
       .setTaunt("Your mother was a hamster!");
   }
@@ -63,7 +63,7 @@ public class RequestController {
 
     return new MoveResponse()
       .setMove(finalMove)
-      .setTaunt("Move");
+      .setTaunt("Your mother was a hamster!");
   }
 
   @RequestMapping(value="/end", method=RequestMethod.POST)
