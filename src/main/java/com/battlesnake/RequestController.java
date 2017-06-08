@@ -61,6 +61,9 @@ public class RequestController {
 
   private Set<Move> getAvailable(MoveRequest request) {
     HashSet<Move> moves = Sets.newHashSet(Move.DOWN, Move.UP, Move.LEFT, Move.RIGHT);
+    Snake mySnake = getMySnake(request);
+    int mySnakeLen = getSnakeLen(mySnake);
+
     int[] myCords = getMySnakeCords(request);
     int x = myCords[0];
     int y = myCords[0];
@@ -77,9 +80,14 @@ public class RequestController {
       moves.remove(Move.UP);
     }
     for (Snake snake : request.getSnakes()) {
-      for (int[] cords : snake.getCoords()) {
+      for (int i = 0; i < snake.getCoords().length; i++) {
+        int[] cords = snake.getCoords()[i];
         if (cords[0] == x + 1 && cords[1] == y) {
-          moves.remove(Move.RIGHT);
+          if (i == 0 && snake != mySnake && getSnakeLen(snake) < mySnakeLen) {
+
+          } else {
+            moves.remove(Move.RIGHT);
+          }
         }
         if (cords[0] == x - 1 && cords[1] == y) {
           moves.remove(Move.LEFT);
@@ -97,9 +105,22 @@ public class RequestController {
     return moves;
   }
 
+  private int getSnakeLen(Snake snake) {
+    return snake.getCoords().length;
+  }
+
   private Snake getMySnake(MoveRequest request) {
     for (Snake snake : request.getSnakes()) {
-      if(snake.getId() == request.getYou()) {
+      if(snake.getId().equals(request.getYou())) {
+        return snake;
+      }
+    }
+    return null;
+  }
+
+  private Snake getOponentSnake(MoveRequest request) {
+    for (Snake snake : request.getSnakes()) {
+      if(!snake.getId().equals(request.getYou())) {
         return snake;
       }
     }
