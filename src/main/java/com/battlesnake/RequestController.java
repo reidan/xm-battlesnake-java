@@ -47,7 +47,7 @@ public class RequestController {
     Move[] movesArr = availableMoveOptions.toArray(new Move[0]);
 
     return new MoveResponse()
-      .setMove(movesArr[0])
+      .setMove(movesArr[new Random().nextInt(movesArr.length)])
       .setTaunt("Going Up!");
   }
 
