@@ -36,8 +36,8 @@ public class RequestController {
       .setName("The Snake formerly known as the Mongoose")
       .setColor("#4A412A")
       .setHeadUrl("http://vignette1.wikia.nocookie.net/nintendo/images/6/61/Bowser_Icon.png/revision/latest?cb=20120820000805&path-prefix=en")
-      .setHeadType(HeadType.DEAD)
-      .setTailType(TailType.PIXEL)
+      .setHeadType(HeadType.SANDWORM)
+      .setTailType(TailType.FATRATTLE)
       .setTaunt("Roarrrrrrrrr!");
   }
 
