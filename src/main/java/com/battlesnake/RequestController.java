@@ -46,9 +46,17 @@ public class RequestController {
     Set<Move> availableMoveOptions = getAvailable(request).available;
     Move[] movesArr = availableMoveOptions.toArray(new Move[0]);
 
+    Move finalMove = null;
+    if (request.getFood().length > 0) {
+      int foodX = request.getFood()[0][0];
+      int foodY = request.getFood()[0][1];
+
+    } else {
+      finalMove = movesArr[new Random().nextInt(movesArr.length)];
+    }
     return new MoveResponse()
-      .setMove(movesArr[new Random().nextInt(movesArr.length)])
-      .setTaunt("Going Up!");
+      .setMove(finalMove)
+      .setTaunt();
   }
 
   @RequestMapping(value="/end", method=RequestMethod.POST)
