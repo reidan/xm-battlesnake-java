@@ -42,12 +42,12 @@ public class RequestController {
 
   @RequestMapping(value="/move", method=RequestMethod.POST, produces = "application/json")
   public MoveResponse move(@RequestBody MoveRequest request) {
-
+    Set<Move> availableMoveOptions = getAvailable(request);
     return new MoveResponse()
       .setMove(Move.UP )
       .setTaunt("Going Up!");
   }
-    
+
   @RequestMapping(value="/end", method=RequestMethod.POST)
   public Object end() {
       // No response required
@@ -55,4 +55,25 @@ public class RequestController {
       return responseObject;
   }
 
+
+  private Set<Move> getAvailable(MoveRequest request) {
+    HashSet<Move> moves = new HashSet<>();
+    int[] myCords = getMySnakeCords(request);
+
+    return moves;
+  }
+
+  private Snake getMySnake(MoveRequest request) {
+    for (Snake snake : request.getSnakes()) {
+      if(snake.getId() == request.getYou()) {
+        return snake;
+      }
+    }
+    return null;
+  }
+
+  private int[] getMySnakeCords(MoveRequest request) {
+    Snake snake = getMySnake(request);
+    return new int[]{snake.getCoords()[0][0],snake.getCoords()[0][1]};
+  }
 }
