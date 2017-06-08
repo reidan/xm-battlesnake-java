@@ -18,6 +18,7 @@ package com.battlesnake;
 
 import com.battlesnake.data.*;
 
+import com.google.common.collect.Sets;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -43,8 +44,10 @@ public class RequestController {
   @RequestMapping(value="/move", method=RequestMethod.POST, produces = "application/json")
   public MoveResponse move(@RequestBody MoveRequest request) {
     Set<Move> availableMoveOptions = getAvailable(request);
+    Move[] movesArr = availableMoveOptions.toArray(new Move[0]);
+
     return new MoveResponse()
-      .setMove(Move.UP )
+      .setMove(movesArr[new Random().nextInt(movesArr.length)])
       .setTaunt("Going Up!");
   }
 
@@ -57,8 +60,39 @@ public class RequestController {
 
 
   private Set<Move> getAvailable(MoveRequest request) {
-    HashSet<Move> moves = new HashSet<>();
+    HashSet<Move> moves = Sets.newHashSet(Move.DOWN, Move.UP, Move.LEFT, Move.RIGHT);
     int[] myCords = getMySnakeCords(request);
+    int x = myCords[0];
+    int y = myCords[0];
+    if (x + 1 > request.getWidth() - 1) {
+      moves.remove(Move.RIGHT);
+    }
+    if (x - 1 < 0) {
+      moves.remove(Move.LEFT);
+    }
+    if (y + 1 > request.getHeight() - 1) {
+      moves.remove(Move.DOWN);
+    }
+    if (y - 1 < 0) {
+      moves.remove(Move.UP);
+    }
+    for (Snake snake : request.getSnakes()) {
+      for (int[] cords : snake.getCoords()) {
+        if (cords[0] == x + 1 && cords[1] == y) {
+          moves.remove(Move.RIGHT);
+        }
+        if (cords[0] == x - 1 && cords[1] == y) {
+          moves.remove(Move.LEFT);
+        }
+        if (cords[0] == x && cords[1] == y + 1) {
+          moves.remove(Move.DOWN);
+        }
+        if (cords[0] == x && cords[1] == y - 1) {
+          moves.remove(Move.UP);
+        }
+      }
+    }
+
 
     return moves;
   }
