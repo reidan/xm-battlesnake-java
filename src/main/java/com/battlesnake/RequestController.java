@@ -35,10 +35,10 @@ public class RequestController {
     return new StartResponse()
       .setName("The Snake formerly known as the Mongoose")
       .setColor("#4A412A")
-      .setHeadUrl("http://vignette1.wikia.nocookie.net/nintendo/images/6/61/Bowser_Icon.png/revision/latest?cb=20120820000805&path-prefix=en")
+      .setHeadUrl("https://s3-us-west-2.amazonaws.com/s3-xmatters-static/snek/mongoose1.png")
       .setHeadType(HeadType.SANDWORM)
       .setTailType(TailType.FATRATTLE)
-      .setTaunt("Roarrrrrrrrr!");
+      .setTaunt("Your mother was a hamster!");
   }
 
   @RequestMapping(value="/move", method=RequestMethod.POST, produces = "application/json")
