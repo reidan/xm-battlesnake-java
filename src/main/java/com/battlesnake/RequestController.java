@@ -42,9 +42,10 @@ public class RequestController {
 
   @RequestMapping(value="/move", method=RequestMethod.POST, produces = "application/json")
   public MoveResponse move(@RequestBody MoveRequest request) {
+
     return new MoveResponse()
-      .setMove(Move.DOWN)
-      .setTaunt("Going Down!");
+      .setMove(Move.UP)
+      .setTaunt("Going Up!");
   }
     
   @RequestMapping(value="/end", method=RequestMethod.POST)
