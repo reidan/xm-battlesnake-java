@@ -56,7 +56,7 @@ public class RequestController {
     }
     return new MoveResponse()
       .setMove(finalMove)
-      .setTaunt();
+      .setTaunt("");
   }
 
   @RequestMapping(value="/end", method=RequestMethod.POST)
