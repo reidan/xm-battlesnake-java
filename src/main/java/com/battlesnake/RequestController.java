@@ -62,7 +62,7 @@ public class RequestController {
     }
     return new MoveResponse()
       .setMove(finalMove)
-      .setTaunt("");
+      .setTaunt("Move");
   }
 
   @RequestMapping(value="/end", method=RequestMethod.POST)
