@@ -71,7 +71,7 @@ public class RequestController {
 
     int[] myCords = getMySnakeCords(request);
     int x = myCords[0];
-    int y = myCords[0];
+    int y = myCords[1];
     if (x + 1 > request.getWidth() - 1) {   //against walls
       moves.available.remove(Move.RIGHT);
     }
