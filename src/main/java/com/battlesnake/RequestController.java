@@ -43,11 +43,11 @@ public class RequestController {
 
   @RequestMapping(value="/move", method=RequestMethod.POST, produces = "application/json")
   public MoveResponse move(@RequestBody MoveRequest request) {
-    Set<Move> availableMoveOptions = getAvailable(request);
+    Set<Move> availableMoveOptions = getAvailable(request).available;
     Move[] movesArr = availableMoveOptions.toArray(new Move[0]);
 
     return new MoveResponse()
-      .setMove(movesArr[new Random().nextInt(movesArr.length)])
+      .setMove(movesArr[0])
       .setTaunt("Going Up!");
   }
 
@@ -59,44 +59,49 @@ public class RequestController {
   }
 
 
-  private Set<Move> getAvailable(MoveRequest request) {
-    HashSet<Move> moves = Sets.newHashSet(Move.DOWN, Move.UP, Move.LEFT, Move.RIGHT);
+  private static class Moves{
+    public Set<Move> available = Sets.newHashSet(Move.DOWN, Move.UP, Move.LEFT, Move.RIGHT);
+    public Set<Move> winning = Sets.newHashSet();
+  }
+
+  private Moves getAvailable(MoveRequest request) {
+    Moves moves = new Moves();
     Snake mySnake = getMySnake(request);
     int mySnakeLen = getSnakeLen(mySnake);
 
     int[] myCords = getMySnakeCords(request);
     int x = myCords[0];
     int y = myCords[0];
-    if (x + 1 > request.getWidth() - 1) {
-      moves.remove(Move.RIGHT);
+    if (x + 1 > request.getWidth() - 1) {   //against walls
+      moves.available.remove(Move.RIGHT);
     }
     if (x - 1 < 0) {
-      moves.remove(Move.LEFT);
+      moves.available.remove(Move.LEFT);
     }
     if (y + 1 > request.getHeight() - 1) {
-      moves.remove(Move.DOWN);
+      moves.available.remove(Move.DOWN);
     }
     if (y - 1 < 0) {
-      moves.remove(Move.UP);
+      moves.available.remove(Move.UP);
     }
-    for (Snake snake : request.getSnakes()) {
+    for (Snake snake : request.getSnakes()) {   //against snakes
       for (int i = 0; i < snake.getCoords().length; i++) {
         int[] cords = snake.getCoords()[i];
         if (cords[0] == x + 1 && cords[1] == y) {
           if (i == 0 && snake != mySnake && getSnakeLen(snake) < mySnakeLen) {
-
+            moves.winning.add(Move.RIGHT);
           } else {
-            moves.remove(Move.RIGHT);
+            moves.available.remove(Move.RIGHT);
           }
         }
         if (cords[0] == x - 1 && cords[1] == y) {
-          moves.remove(Move.LEFT);
+          moves.available.remove(Move.LEFT);
         }
         if (cords[0] == x && cords[1] == y + 1) {
-          moves.remove(Move.DOWN);
+          moves.available.remove(Move.DOWN);
         }
         if (cords[0] == x && cords[1] == y - 1) {
-          moves.remove(Move.UP);
+          moves.available.remove(Move.UP);
         }
       }
     }
