@@ -48,13 +48,18 @@ public class RequestController {
 
     Move finalMove = null;
     if (moves.winning.size() > 0) {
-      new MoveResponse()
+      return new MoveResponse()
               .setMove(moves.winning.iterator().next())
               .setTaunt("DIE !!!");
     }
 
-
+    Set<Move> foodMoves = moveToFood(request);
+    if (foodMoves.size() > 0) {
+      Move[] foodMovesArr = foodMoves.toArray(new Move[0]);
+      finalMove = foodMovesArr[new Random().nextInt(foodMovesArr.length)];
+    } else {
       finalMove = movesArr[new Random().nextInt(movesArr.length)];
+    }
 
     return new MoveResponse()
       .setMove(finalMove)
