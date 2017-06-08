@@ -108,6 +108,16 @@ public class RequestController {
                     break;
                 }
             }
+        } else if (foodMove == Move.LEFT) {
+            int newX = x;
+            for (int i = 0; i < request.getWidth(); i++) {
+                newX--;
+                if (isValid(newX, y, request)) {
+                    rank++;
+                } else {
+                    break;
+                }
+            }
         } else if (foodMove == Move.DOWN) {
             int newY = y;
             for (int i = 0; i < request.getWidth(); i++) {
