@@ -44,7 +44,7 @@ public class RequestController {
   public MoveResponse move(@RequestBody MoveRequest request) {
 
     return new MoveResponse()
-      .setMove(Move.UP)
+      .setMove(Move.UP )
       .setTaunt("Going Up!");
   }
     
