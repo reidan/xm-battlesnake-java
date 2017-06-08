@@ -158,4 +158,40 @@ public class RequestController {
     Snake snake = getMySnake(request);
     return new int[]{snake.getCoords()[0][0],snake.getCoords()[0][1]};
   }
+
+    private Set<Move> moveToFood(MoveRequest request) {
+
+        // no food
+        if (request.getFood().length == 0) {
+          return Collections.emptySet();
+        }
+
+        Set<Move> options = new HashSet<>(2);
+        Snake me = getMySnake(request);
+        Set<Move> availableMoves = getAvailable(request);
+
+        int[] food = request.getFood()[0];
+        int[] head = me.getCoords()[0];
+
+        Move xMove, yMove;
+
+        int xDist = head[0]-food[0];
+        int yDist = head[1]-food[1];
+
+       // x move
+        if (head[0] > food[0] && availableMoves.contains(Move.LEFT)) {
+          options.add(Move.LEFT);
+        } else if (head[0] < food[0] && availableMoves.contains(Move.RIGHT)) {
+          options.add(Move.RIGHT);
+        } // else no x move
+
+        // y -move
+        if (head[1] > food[1] && availableMoves.contains(Move.UP)) {
+          options.add(Move.UP);
+        } else if (head[1] < food[1] && availableMoves.contains(Move.DOWN)) {
+          options.add(Move.DOWN);
+        }
+        return options;
+    }
 }
+
