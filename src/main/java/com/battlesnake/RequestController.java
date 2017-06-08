@@ -43,10 +43,16 @@ public class RequestController {
 
   @RequestMapping(value="/move", method=RequestMethod.POST, produces = "application/json")
   public MoveResponse move(@RequestBody MoveRequest request) {
-    Set<Move> availableMoveOptions = getAvailable(request).available;
-    Move[] movesArr = availableMoveOptions.toArray(new Move[0]);
+    Moves moves = getAvailable(request);
+    Move[] movesArr = moves.available.toArray(new Move[0]);
 
     Move finalMove = null;
+    if (moves.winning.size() > 0) {
+      new MoveResponse()
+              .setMove(moves.winning.iterator().next())
+              .setTaunt("DIE !!!");
+    }
+
     if (request.getFood().length > 0) {
       int foodX = request.getFood()[0][0];
       int foodY = request.getFood()[0][1];
@@ -103,13 +109,25 @@ public class RequestController {
           }
         }
         if (cords[0] == x - 1 && cords[1] == y) {
-          moves.available.remove(Move.LEFT);
+          if (i == 0 && snake != mySnake && getSnakeLen(snake) < mySnakeLen) {
+            moves.winning.add(Move.LEFT);
+          } else {
+            moves.available.remove(Move.LEFT);
+          }
         }
         if (cords[0] == x && cords[1] == y + 1) {
-          moves.available.remove(Move.DOWN);
+          if (i == 0 && snake != mySnake && getSnakeLen(snake) < mySnakeLen) {
+            moves.winning.add(Move.DOWN);
+          } else {
+            moves.available.remove(Move.DOWN);
+          }
         }
         if (cords[0] == x && cords[1] == y - 1) {
-          moves.available.remove(Move.UP);
+          if (i == 0 && snake != mySnake && getSnakeLen(snake) < mySnakeLen) {
+            moves.winning.add(Move.UP);
+          } else {
+            moves.available.remove(Move.UP);
+          }
         }
       }
     }
